@@ -62,6 +62,16 @@ impl<T: Write + Read> Create<T> {
         };
         self.send(&[opcode as u8])
     }
+
+    /// Powers down the robot.
+    ///
+    /// Available in modes: [`Passive`](OperatingMode::Passive), [`Safe`](OperatingMode::Safe),
+    /// [`Full`](OperatingMode::Full)
+    ///
+    /// Changes mode to [`Passive`](OperatingMode::Passive)
+    pub fn power_down(&mut self) -> Result<()> {
+        self.send(&[Opcode::Power as u8])
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
