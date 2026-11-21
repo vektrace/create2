@@ -24,6 +24,7 @@
 //!
 //! There are more examples in the [examples](https://github.com/vektrace/create2/tree/main/examples) directory.
 
+mod clean;
 pub mod error;
 pub mod mode;
 pub mod types;
