@@ -4,9 +4,10 @@ use std::io::{Read, Write};
 impl<T: Write + Read> Create<T> {
     /// Starts the OI. Must always be sent before sending any other commands.
     ///
-    /// Available in the following modes: [`Passive`](OperatingMode::Passive), [`Safe`](OperatingMode::Safe), [`Full`](OperatingMode::Full)
+    /// Available in modes: [`Passive`](OperatingMode::Passive), [`Safe`](OperatingMode::Safe),
+    /// [`Full`](OperatingMode::Full)
     ///
-    /// Changes mode to Passive. Robot beeps once to acknowledge it is starting from
+    /// Changes mode to [`Passive`](OperatingMode::Passive). Robot beeps once to acknowledge it is starting from
     /// [`Off`](OperatingMode::Off) mode.
     pub fn start(&mut self) -> Result<()> {
         self.send(&[Opcode::Start as u8])
@@ -25,7 +26,8 @@ impl<T: Write + Read> Create<T> {
     ///
     /// Use this command when you are finished working with the robot.
     ///
-    /// Available in the following modes: [`Passive`](OperatingMode::Passive), [`Safe`](OperatingMode::Safe), [`Full`](OperatingMode::Full)
+    /// Available in modes: [`Passive`](OperatingMode::Passive), [`Safe`](OperatingMode::Safe),
+    /// [`Full`](OperatingMode::Full)
     ///
     /// Changes mode to [`Off`](OperatingMode::Off). Robot plays a song to acknowledge it is exiting the
     /// OI.
