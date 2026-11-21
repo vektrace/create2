@@ -1,14 +1,51 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+//! Rust library for controlling iRobot Create 2 robots
+//!
+//! # Getting started
+//!
+//! You need a serial connection to the Create robot.
+//!
+//! ```ignore
+//! use create2::{Create, mode::SetOperatingMode};
+//!
+//! // Since the port is only required to implement Write and Read, any other
+//! // crate could be used too. The serialport crate is used here.
+//! let port = serialport::new("/dev/ttyUSB0", 115200).open().expect("Failed to open port");
+//!
+//! let mut create = Create::new(port);
+//!
+//! create.start()?;
+//!
+//! create.set_mode(SetOperatingMode::Safe)?;
+//!
+//! // Do other operations...
+//!
+//! create.stop()?;
+//! ```
+//!
+//! There are more examples in the [examples](https://github.com/vektrace/create2/tree/main/examples) directory.
+
+pub mod error;
+pub mod mode;
+pub mod opcode;
+pub mod types;
+
+use error::*;
+pub use opcode::Opcode;
+use std::io::{Read, Write};
+
+// TODO: rewrite documentation
+
+/// iRobot Create 2 interface
+pub struct Create<T: Write + Read> {
+    port: T,
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+impl<T: Write + Read> Create<T> {
+    pub fn new(port: T) -> Self {
+        Self { port }
+    }
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+    fn send(&mut self, data: &[u8]) -> Result<()> {
+        Ok(self.port.write_all(data).and_then(|_| self.port.flush())?)
     }
 }
