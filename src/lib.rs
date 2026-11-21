@@ -27,6 +27,7 @@
 mod clean;
 pub mod error;
 pub mod mode;
+mod schedule;
 pub mod types;
 
 use error::*;

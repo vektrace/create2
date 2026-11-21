@@ -81,3 +81,159 @@ pub enum OperatingMode {
     /// Charging terminates when you enter Full Mode, and Roomba will not power save.
     Full,
 }
+
+/// A weekly schedule
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub struct Schedule {
+    slots: [Option<Time>; 7],
+}
+
+impl Schedule {
+    /// Creates an empty schedule.
+    pub const fn new() -> Self {
+        Self { slots: [None; 7] }
+    }
+
+    /// Sets the scheduled time for a day of the week.
+    ///
+    /// If the day already has a scheduled time, it will get replaced.
+    pub fn insert(&mut self, t: WeeklyTime) {
+        self.slots[t.day as usize] = Some(t.time);
+    }
+
+    /// Removes the scheduled time for the given day.
+    ///
+    /// Does nothing if the day has no scheduled time.
+    pub fn remove(&mut self, day: Day) {
+        self.slots[day as usize] = None;
+    }
+
+    pub fn get(&self, day: Day) -> Option<Time> {
+        self.slots[day as usize]
+    }
+
+    pub fn iter(&self) -> ScheduleIter<'_> {
+        ScheduleIter {
+            schedule: self,
+            index: 0,
+        }
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.slots.iter().all(Option::is_none)
+    }
+}
+
+impl<'a> IntoIterator for &'a Schedule {
+    type Item = WeeklyTime;
+    type IntoIter = ScheduleIter<'a>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter()
+    }
+}
+
+impl FromIterator<WeeklyTime> for Schedule {
+    fn from_iter<I: IntoIterator<Item = WeeklyTime>>(iter: I) -> Self {
+        let mut schedule = Schedule::new();
+
+        for time in iter {
+            schedule.insert(time);
+        }
+
+        schedule
+    }
+}
+
+pub struct ScheduleIter<'a> {
+    schedule: &'a Schedule,
+    index: usize,
+}
+
+impl<'a> Iterator for ScheduleIter<'a> {
+    type Item = WeeklyTime;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        while self.index < self.schedule.slots.len() {
+            let index = self.index;
+            self.index += 1;
+
+            if let Some(time) = self.schedule.slots[index] {
+                return Some(WeeklyTime {
+                    day: (index as u8).try_into().ok()?,
+                    time,
+                });
+            }
+        }
+
+        None
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub struct WeeklyTime {
+    pub day: Day,
+    pub time: Time,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[repr(u8)]
+pub enum Day {
+    Sunday = 0,
+    Monday = 1,
+    Tuesday = 2,
+    Wednesday = 3,
+    Thursday = 4,
+    Friday = 5,
+    Saturday = 6,
+}
+
+impl Day {
+    pub const fn bit(self) -> u8 {
+        1 << (self as u8)
+    }
+}
+
+impl TryFrom<u8> for Day {
+    type Error = ();
+
+    fn try_from(value: u8) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Day::Sunday),
+            1 => Ok(Day::Monday),
+            2 => Ok(Day::Tuesday),
+            3 => Ok(Day::Wednesday),
+            4 => Ok(Day::Thursday),
+            5 => Ok(Day::Friday),
+            6 => Ok(Day::Saturday),
+            _ => Err(()),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Time {
+    hour: u8,
+    minute: u8,
+}
+
+impl Time {
+    /// Construct a new [`Time`] value.
+    ///
+    /// Returns [`None`] if the time is invalid.
+    pub const fn new(hour: u8, minute: u8) -> Option<Self> {
+        if hour > 23 || minute > 59 {
+            None
+        } else {
+            Some(Self { hour, minute })
+        }
+    }
+
+    pub const fn hour(&self) -> u8 {
+        self.hour
+    }
+
+    pub const fn minute(&self) -> u8 {
+        self.minute
+    }
+}
