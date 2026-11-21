@@ -1,4 +1,4 @@
-use crate::{Create, Opcode, Result, types::BaudRate};
+use crate::{BaudRate, Create, Opcode, OperatingMode, Result};
 use std::io::{Read, Write};
 
 impl<T: Write + Read> Create<T> {
@@ -75,34 +75,4 @@ impl<T: Write + Read> Create<T> {
     pub fn power_down(&mut self) -> Result<()> {
         self.send(&[Opcode::Power as u8])
     }
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum OperatingMode {
-    /// After a battery change or when power is first turned on, the OI is in Off mode.
-    Off,
-    /// The OI enters Passive mode when the [Start command](Create::start()) or any of the cleaning mode commands has
-    /// been sent.
-    ///
-    /// When in Passive mode, sensor data can be requested and received, but actuators (motors,
-    /// speaker, lights, low side drivers, digital outputs) cannot be controlled. To control the
-    /// actuators the robot must be either in [Full](OperatingMode::Full) or in
-    /// [Safe](OperatingMode::Safe) mode.
-    Passive,
-    /// Safe mode gives full control of the robot, with some safety-related exceptions:
-    /// - Detection of a cliff while moving forward (or moving backward with a small turning radius, less than one robot radius).
-    /// - Detection of a wheel drop (on any wheel).
-    /// - Charger plugged in and powered.
-    ///
-    /// If any of these conditions occur while in Safe mode, the robot stops all motors and reverts
-    /// to [Passive](OperatingMode::Passive) mode.
-    ///
-    /// Charging terminates when you enter Safe Mode, and the robot will not power save.
-    Safe,
-    /// Full mode provides full control over the robot.
-    ///
-    /// The safety features are disabled in Full mode.
-    ///
-    /// Charging terminates when you enter Full Mode, and Roomba will not power save.
-    Full,
 }

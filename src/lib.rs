@@ -26,12 +26,11 @@
 
 pub mod error;
 pub mod mode;
-pub mod opcode;
 pub mod types;
 
 use error::*;
-pub use opcode::Opcode;
 use std::io::{Read, Write};
+pub use types::*;
 
 /// iRobot Create 2 interface
 pub struct Create<T: Write + Read> {
