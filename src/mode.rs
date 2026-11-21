@@ -42,8 +42,9 @@ impl<T: Write + Read> Create<T> {
     /// power button or removing the battery. You must wait 100ms after sending this command before
     /// sending other commands at the new rate.
     ///
-    /// Available in the following modes: [`Passive`](OperatingMode::Passive), [`Safe`](OperatingMode::Safe), [`Full`](OperatingMode::Full)
-    pub fn baud(&mut self, baud: BaudRate) -> Result<()> {
+    /// Available in modes: [`Passive`](OperatingMode::Passive), [`Safe`](OperatingMode::Safe),
+    /// [`Full`](OperatingMode::Full)
+    pub fn set_baud(&mut self, baud: BaudRate) -> Result<()> {
         self.send(&[Opcode::Baud as u8, baud as u8])
     }
 
