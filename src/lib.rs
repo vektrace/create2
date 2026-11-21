@@ -5,7 +5,7 @@
 //! You need a serial connection to the Create robot.
 //!
 //! ```ignore
-//! use create2::{Create, mode::SetOperatingMode};
+//! use create2::{Create, mode::OperatingMode};
 //!
 //! // Since the port is only required to implement Write and Read, any other
 //! // crate could be used too. The serialport crate is used here.
@@ -15,7 +15,7 @@
 //!
 //! create.start()?;
 //!
-//! create.set_mode(SetOperatingMode::Safe)?;
+//! create.set_mode(OperatingMode::Safe)?;
 //!
 //! // Do other operations...
 //!
@@ -32,8 +32,6 @@ pub mod types;
 use error::*;
 pub use opcode::Opcode;
 use std::io::{Read, Write};
-
-// TODO: rewrite documentation
 
 /// iRobot Create 2 interface
 pub struct Create<T: Write + Read> {

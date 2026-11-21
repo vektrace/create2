@@ -7,7 +7,7 @@ A Rust library for controlling iRobot Create 2 robots.
 You need a serial connection to the Create robot.
 
 ```rust
-use create2::{Create, mode::SetOperatingMode};
+use create2::{Create, mode::OperatingMode};
 
 // Since the port is only required to implement Write and Read, any other
 // crate could be used too. The serialport crate is used here.
@@ -17,7 +17,7 @@ let mut create = Create::new(port);
 
 create.start()?;
 
-create.set_mode(SetOperatingMode::Safe)?;
+create.set_mode(OperatingMode::Safe)?;
 
 // Do other operations...
 
