@@ -6,6 +6,7 @@ authors = ["Paul Juranitsch-Klauser <contact@vektrace.com>"]
 description = "Rust library for controlling iRobot Create 2 robots"
 license = "MIT"
 repository = "https://github.com/vektrace/create2"
+keywords = ["create2", "irobot", "robotics"]
 
 [dependencies]
 thiserror = "2.0.21"
