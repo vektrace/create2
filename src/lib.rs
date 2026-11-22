@@ -26,7 +26,7 @@
 
 mod clean;
 pub mod error;
-pub mod mode;
+mod mode;
 mod schedule;
 pub mod types;
 
@@ -35,6 +35,10 @@ use std::io::{Read, Write};
 pub use types::*;
 
 /// iRobot Create 2 interface
+///
+/// Commands can be sent in any operating mode. A command may be ignored by the robot if the current
+/// operating mode does not support it. See the respective command documentation for details on
+/// which operating modes are supported by each command.
 pub struct Create<T: Write + Read> {
     port: T,
 }
