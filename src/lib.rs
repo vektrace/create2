@@ -56,6 +56,6 @@ mod tests {
 
         create.send(&[1]).expect("Sending should not fail");
 
-        assert_eq!(create.port.get_ref(), &[1]);
+        assert_eq!(create.port().get_ref(), &[1]);
     }
 }
