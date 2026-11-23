@@ -13,7 +13,3 @@ exclude = ["/.github"]
 
 [dependencies]
 thiserror = "2.0.21"
-
-[dev-dependencies]
-serialport = "4.10.1"
-anyhow = "1.0.105"

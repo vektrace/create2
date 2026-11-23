@@ -6,7 +6,7 @@ A Rust library for controlling iRobot Create 2 robots.
 
 You need a serial connection to the Create robot.
 
-```rust,no_run
+```rust,ignore
 use create2::{Create, OperatingMode};
 
 fn main() -> anyhow::Result<()> {
