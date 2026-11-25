@@ -64,12 +64,12 @@ impl Schedule {
         self.slots[day as usize] = None;
     }
 
-    /// Returns the time scheduled for `day` or [`None`] if nothing has been scheduled there yet
+    /// Returns the time scheduled for `day` or [`None`] if nothing has been scheduled there yet.
     pub fn get(&self, day: Day) -> Option<Time> {
         self.slots[day as usize]
     }
 
-    /// Returns an iterator over the days which have a scheduled time
+    /// Returns an iterator over the days which have a scheduled time.
     ///
     /// Iteration is in week order starting at [`Day::Sunday`].
     /// Days without a scheduled time are skipped.
@@ -80,9 +80,9 @@ impl Schedule {
         }
     }
 
-    /// Returns `true` if no day has a scheduled time
+    /// Returns `true` if no day has a scheduled time.
     ///
-    /// An empty schedule clears all slots on the robot
+    /// An empty schedule clears all slots on the robot.
     pub fn is_empty(&self) -> bool {
         self.slots.iter().all(Option::is_none)
     }
@@ -187,7 +187,7 @@ pub struct Time {
 }
 
 impl Time {
-    /// Construct a new [`Time`] value
+    /// Construct a new [`Time`] value.
     ///
     /// Returns [`None`] if the time is invalid.
     pub const fn new(hour: u8, minute: u8) -> Option<Self> {
@@ -198,12 +198,12 @@ impl Time {
         }
     }
 
-    /// Returns the hour of this [`Time`] value in a range of 0-23
+    /// Returns the hour of this [`Time`] value in a range of 0-23.
     pub const fn hour(&self) -> u8 {
         self.hour
     }
 
-    /// Returns the minute of this [`Time`] value in a range of 0-59
+    /// Returns the minute of this [`Time`] value in a range of 0-59.
     pub const fn minute(&self) -> u8 {
         self.minute
     }

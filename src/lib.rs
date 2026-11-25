@@ -25,17 +25,17 @@ pub struct Create<T: Write + Read> {
 }
 
 impl<T: Write + Read> Create<T> {
-    /// Wraps a port as a Create 2 interface
+    /// Wraps a port as a Create 2 interface.
     pub fn new(port: T) -> Self {
         Self { port }
     }
 
-    /// Returns a reference to the port commands are sent through
+    /// Returns a reference to the port commands are sent through.
     pub fn port(&self) -> &T {
         &self.port
     }
 
-    /// Returns a mutable reference to the port commands are sent through
+    /// Returns a mutable reference to the port commands are sent through.
     pub fn port_mut(&mut self) -> &mut T {
         &mut self.port
     }

@@ -1,6 +1,5 @@
 /// iRobot Create 2 Opcodes according to the [Create 2 Open Interface Spec](https://cdn-shop.adafruit.com/datasheets/create_2_Open_Interface_Spec.pdf)
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[expect(missing_docs, reason = "variant names are opcode names")]
 #[repr(u8)]
 pub enum Opcode {
     Start = 128,
