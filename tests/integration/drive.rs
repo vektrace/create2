@@ -65,3 +65,27 @@ fn drive_direct() {
         Err(Error::InvalidVelocity)
     ));
 }
+
+#[test]
+fn drive_pwm() {
+    let mut create = Create::new(MockPort::default());
+
+    create.drive_pwm(255, 255).unwrap();
+    assert_eq!(
+        create.port().to_robot,
+        &[Opcode::DrivePWM as u8, 0, 255, 0, 255]
+    );
+    create.port_mut().to_robot.clear();
+
+    create.drive_pwm(-255, -255).unwrap();
+    assert_eq!(
+        create.port().to_robot,
+        &[Opcode::DrivePWM as u8, 255, 1, 255, 1]
+    );
+    create.port_mut().to_robot.clear();
+
+    assert!(matches!(
+        create.drive_pwm(300, -300),
+        Err(Error::InvalidPWM)
+    ));
+}

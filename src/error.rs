@@ -17,4 +17,7 @@ pub enum Error {
     /// The radius is not in the range of -2000 - 2000 mm.
     #[error("invalid radius")]
     InvalidRadius,
+    /// PWM is not in the range of -255 - 255.
+    #[error("invalid pwm")]
+    InvalidPWM,
 }
