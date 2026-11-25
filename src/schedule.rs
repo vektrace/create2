@@ -265,9 +265,9 @@ mod tests {
 
     #[test]
     fn invalid_times() {
-        assert!(Time::new(23, 59).is_some());
-        assert!(Time::new(24, 0).is_none());
-        assert!(Time::new(0, 60).is_none());
+        assert!(Time::new(23, 59).is_ok());
+        assert!(Time::new(24, 0).is_err());
+        assert!(Time::new(0, 60).is_err());
     }
 
     #[test]
