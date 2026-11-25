@@ -2,12 +2,14 @@
 
 mod clean;
 mod dock;
+mod drive;
 mod error;
 mod mode;
 mod opcode;
 mod schedule;
 mod serial;
 
+pub use drive::Radius;
 pub use error::{Error, Result};
 pub use mode::OperatingMode;
 pub use opcode::Opcode;
