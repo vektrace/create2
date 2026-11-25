@@ -41,3 +41,27 @@ fn drive() {
         Err(Error::InvalidRadius)
     ));
 }
+
+#[test]
+fn drive_direct() {
+    let mut create = Create::new(MockPort::default());
+
+    create.drive_direct(500, 500).unwrap();
+    assert_eq!(
+        create.port().to_robot,
+        &[Opcode::DriveDirect as u8, 1, 244, 1, 244]
+    );
+    create.port_mut().to_robot.clear();
+
+    create.drive_direct(-500, -500).unwrap();
+    assert_eq!(
+        create.port().to_robot,
+        &[Opcode::DriveDirect as u8, 254, 12, 254, 12]
+    );
+    create.port_mut().to_robot.clear();
+
+    assert!(matches!(
+        create.drive_direct(600, -600),
+        Err(Error::InvalidVelocity)
+    ));
+}

@@ -31,6 +31,23 @@ impl<T: Write + Read> Create<T> {
             radius_low,
         ])
     }
+
+    pub fn drive_direct(&mut self, left_velocity: i16, right_velocity: i16) -> Result<()> {
+        if !(-500..=500).contains(&left_velocity) || !(-500..=500).contains(&right_velocity) {
+            return Err(Error::InvalidVelocity);
+        }
+
+        let [right_high, right_low] = right_velocity.to_be_bytes();
+        let [left_high, left_low] = left_velocity.to_be_bytes();
+
+        self.send(&[
+            Opcode::DriveDirect as u8,
+            right_high,
+            right_low,
+            left_high,
+            left_low,
+        ])
+    }
 }
 
 /// Turn radius for [`Create::drive`]
