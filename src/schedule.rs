@@ -1,4 +1,4 @@
-use crate::{Create, Opcode, Result};
+use crate::{Create, Error, Opcode, Result};
 use std::io::{Read, Write};
 
 impl<T: Write + Read> Create<T> {
@@ -189,12 +189,12 @@ pub struct Time {
 impl Time {
     /// Construct a new [`Time`] value.
     ///
-    /// Returns [`None`] if the time is invalid.
-    pub const fn new(hour: u8, minute: u8) -> Option<Self> {
+    /// Returns an error if the time is invalid.
+    pub const fn new(hour: u8, minute: u8) -> Result<Self> {
         if hour > 23 || minute > 59 {
-            None
+            Err(Error::InvalidTime)
         } else {
-            Some(Self { hour, minute })
+            Ok(Self { hour, minute })
         }
     }
 
