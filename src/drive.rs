@@ -32,6 +32,11 @@ impl<T: Write + Read> Create<T> {
         ])
     }
 
+    /// Controls the robot's drive wheels independently.
+    ///
+    /// Available in modes: [`Safe`](crate::OperatingMode::Safe), [`Full`](crate::OperatingMode::Full)
+    ///
+    /// Velocity must be in the range of -500 - 500 mm/s.
     pub fn drive_direct(&mut self, left_velocity: i16, right_velocity: i16) -> Result<()> {
         if !(-500..=500).contains(&left_velocity) || !(-500..=500).contains(&right_velocity) {
             return Err(Error::InvalidVelocity);
