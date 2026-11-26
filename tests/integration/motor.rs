@@ -1,5 +1,5 @@
 use crate::common::MockPort;
-use create2::{Create, MainBrushDirection, Opcode, OperatingMode, SideBrushDirection};
+use create2::{Create, MainBrushDirection, Opcode, SideBrushDirection};
 
 #[test]
 fn start() {
