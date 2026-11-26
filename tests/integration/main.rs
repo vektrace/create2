@@ -4,5 +4,6 @@ mod dock;
 mod drive;
 mod error;
 mod mode;
+mod motor;
 mod schedule;
 mod serial;
