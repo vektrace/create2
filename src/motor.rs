@@ -1,4 +1,4 @@
-use crate::{Create, Opcode, Result};
+use crate::{Create, Error, Opcode, Result};
 use std::io::{Read, Write};
 
 impl<T: Write + Read> Create<T> {
@@ -23,6 +23,32 @@ impl<T: Write + Read> Create<T> {
             | (side_brush as u8);
 
         self.send(&[Opcode::Motors as u8, motors])
+    }
+
+    /// Controls the speed of the robot's vacuum, main and side brush independently.
+    ///
+    /// Duty cycles are linear: `127` is 100% of battery voltage, `64` is ~50%, etc.
+    ///
+    /// The main and side brush can run in either direction while the vacuum only runs forward.
+    ///
+    /// Positive speeds turn the motor in its default (cleaning) direction. Default direction for
+    /// the side brush is counterclockwise, for the main brush it is inward.
+    ///
+    /// Available in modes: [`Safe`](crate::OperatingMode::Safe), [`Full`](crate::OperatingMode::Full)
+    ///
+    /// Main and Side Brush duty cycle must be in the range of -127 - 127.
+    /// Vacuum duty cycle must be in the range of 0 - 127.
+    pub fn motors_pwm(&mut self, main_brush: i8, side_brush: i8, vacuum: u8) -> Result<()> {
+        if main_brush == i8::MIN || side_brush == i8::MIN || vacuum > 127 {
+            return Err(Error::InvalidPWM);
+        }
+
+        self.send(&[
+            Opcode::PWMMotors as u8,
+            main_brush as u8,
+            side_brush as u8,
+            vacuum,
+        ])
     }
 }
 
