@@ -36,8 +36,10 @@ impl<T: Write + Read> Create<T> {
     ///
     /// Available in modes: [`Safe`](crate::OperatingMode::Safe), [`Full`](crate::OperatingMode::Full)
     ///
-    /// Main and Side Brush duty cycle must be in the range of -127 - 127.
-    /// Vacuum duty cycle must be in the range of 0 - 127.
+    /// # Errors
+    ///
+    /// Returns an [`InvalidPWM`](Error::InvalidPWM) error if the main or side brush duty cycle is
+    /// not in the range or -127 - 127 or if the vacuum duty cycle is not in the range of 0 - 127.
     pub fn motors_pwm(&mut self, main_brush: i8, side_brush: i8, vacuum: u8) -> Result<()> {
         if main_brush == i8::MIN || side_brush == i8::MIN || vacuum > 127 {
             return Err(Error::InvalidPWM);

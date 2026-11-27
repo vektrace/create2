@@ -11,8 +11,13 @@ impl<T: Write + Read> Create<T> {
     ///
     /// Available in modes: [`Safe`](crate::OperatingMode::Safe), [`Full`](crate::OperatingMode::Full)
     ///
-    /// Velocity must be in the range of -500 - 500 mm/s.
-    /// Radius must be in the range of -2000 - 2000 mm.
+    /// # Errors
+    ///
+    /// Returns an [`InvalidVelocity`](Error::InvalidVelocity) error if velocity is not in the range
+    /// of -500 - 500 mm/s.
+    ///
+    /// Returns an [`InvalidRadius`](Error::InvalidRadius) error if radius is not in the range of
+    /// -2000 - 2000 mm.
     pub fn drive(&mut self, velocity: i16, radius: Radius) -> Result<()> {
         if !(-500..=500).contains(&velocity) {
             return Err(Error::InvalidVelocity);
@@ -36,7 +41,10 @@ impl<T: Write + Read> Create<T> {
     ///
     /// Available in modes: [`Safe`](crate::OperatingMode::Safe), [`Full`](crate::OperatingMode::Full)
     ///
-    /// Velocity must be in the range of -500 - 500 mm/s.
+    /// # Errors
+    ///
+    /// Returns an [`InvalidVelocity`](Error::InvalidVelocity) error if velocity is not in the range
+    /// of -500 - 500 mm/s.
     pub fn drive_direct(&mut self, left_velocity: i16, right_velocity: i16) -> Result<()> {
         if !(-500..=500).contains(&left_velocity) || !(-500..=500).contains(&right_velocity) {
             return Err(Error::InvalidVelocity);
@@ -58,7 +66,9 @@ impl<T: Write + Read> Create<T> {
     ///
     /// Available in modes: [`Safe`](crate::OperatingMode::Safe), [`Full`](crate::OperatingMode::Full)
     ///
-    /// PWM must be in the range of -255 - 255.
+    /// # Errors
+    ///
+    /// Returns an [`InvalidPWM`](Error::InvalidPWM) error if PWM is not in the range of -255 - 255.
     pub fn drive_pwm(&mut self, left_pwm: i16, right_pwm: i16) -> Result<()> {
         if !(-255..=255).contains(&left_pwm) || !(-255..=255).contains(&right_pwm) {
             return Err(Error::InvalidPWM);

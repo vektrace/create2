@@ -189,7 +189,9 @@ pub struct Time {
 impl Time {
     /// Construct a new [`Time`] value.
     ///
-    /// Returns an error if the time is invalid.
+    /// # Errors
+    ///
+    /// Returns an [`InvalidTime`](Error::InvalidTime) error if the time is invalid.
     pub const fn new(hour: u8, minute: u8) -> Result<Self> {
         if hour > 23 || minute > 59 {
             Err(Error::InvalidTime)
